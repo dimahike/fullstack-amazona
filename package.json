@@ -1,0 +1,28 @@
+{
+  "name": "amazona",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dimahike/fullstack-amazona.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dimahike/fullstack-amazona/issues"
+  },
+  "homepage": "https://github.com/dimahike/fullstack-amazona#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.6"
+  },
+  "devDependencies": {
+    "eslint": "^7.15.0",
+    "eslint-plugin-react": "^7.21.5"
+  }
+}
