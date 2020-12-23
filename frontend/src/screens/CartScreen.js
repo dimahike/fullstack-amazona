@@ -29,7 +29,7 @@ const CartScreen = (props) => {
   };
 
   const checkoutHandler = () => {
-    props.history.push('/signinn?redirect=shipping');
+    props.history.push('/signin?redirect=shipping');
   };
 
   return (
@@ -92,7 +92,7 @@ const CartScreen = (props) => {
                 typ="buttom"
                 onClick={checkoutHandler}
                 className="primary block"
-                disable={cartItems.length === 0}>
+                disabled={cartItems.length === 0}>
                 Proceed to Checkout
               </button>
             </li>
