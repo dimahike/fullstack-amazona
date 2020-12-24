@@ -5,15 +5,18 @@ import { productDetailsReducer, productListReducer } from './reducers/productLis
 import { userRegisterReducer, userSigninReducer } from './reducers/userReducers.js';
 
 const initialState = {
-  cart: {
-    cartItems: localStorage.getItem('cartItems')
-      ? JSON.parse(localStorage.getItem('cartItems'))
-      : [],
-  },
   userSignin: {
     userInfo: localStorage.getItem('userInfo')
       ? JSON.parse(localStorage.getItem('userInfo'))
       : null,
+  },
+  cart: {
+    cartItems: localStorage.getItem('cartItems')
+      ? JSON.parse(localStorage.getItem('cartItems'))
+      : [],
+    shippingAddress: localStorage.getItem('shippingAddress')
+      ? localStorage.getItem('shippingAddress')
+      : {},
   },
 };
 const reducer = combineReducers({
