@@ -7,16 +7,11 @@ import MessageBox from '../components/MessageBox';
 const CartScreen = (props) => {
   const dispatch = useDispatch();
   const productId = props.match.params.id;
-  console.log('cart screen', props.location.search);
   const qty = props.location.search ? Number(props.location.search.split('=')[1]) : 1;
 
   const cart = useSelector((state) => state.cart);
 
   const { cartItems } = cart;
-
-  // const cartItems = [];
-
-  console.log('cartItems', cartItems);
 
   useEffect(() => {
     if (productId) {

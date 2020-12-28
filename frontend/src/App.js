@@ -9,6 +9,7 @@ import RegisterScreen from './screens/RegisterScreen';
 import ShippingAddressScreen from './screens/ShippingAddressScreen';
 import PaymentMethodScreen from './screens/PaymentMethodScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
+import OrderScreen from './screens/OrderScreen';
 
 function App() {
   const dispatch = useDispatch();
@@ -59,6 +60,7 @@ function App() {
           <Route path="/shipping" component={ShippingAddressScreen} />
           <Route path="/payment" component={PaymentMethodScreen} />
           <Route path="/placeorder" component={PlaceOrderScreen} />
+          <Route path="/order/:id" component={OrderScreen} />
           <Route path="/" component={HomeScreen} exact />
         </main>
         <footer className="row center">All right reserved</footer>
