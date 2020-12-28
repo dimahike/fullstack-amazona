@@ -13,17 +13,18 @@ orderRouter.post(
       res.status(400).send({ message: 'Cart is empty' });
     } else {
       const order = new Order({
-        orederItems: req.body.orederItems,
-        shippingAddess: req.body.shippingAddess,
+        orderItems: req.body.orderItems,
+        shippingAddress: req.body.shippingAddress,
         paymentMethod: req.body.paymentMethod,
-        itensPrice: req.body.itensPrice,
+        itemsPrice: req.body.itemsPrice,
         shippingPrice: req.body.shippingPrice,
-        taPrice: req.body.taPrice,
+        taxPrice: req.body.taxPrice,
         totalPrice: req.body.totalPrice,
-        user: req.iser._id,
+        user: req.user._id,
       });
+
       const createdOrder = await order.save();
-      res.status(201).send({ message: 'New order created', order: createdOrder });
+      res.status(201).send({ message: 'New Order Created', order: createdOrder });
     }
   }),
 );
