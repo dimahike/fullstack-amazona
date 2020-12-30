@@ -19,23 +19,13 @@ mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost/amazona', {
   useCreateIndex: true,
 });
 
-// app.get('/api/products/:id', (req, res) => {
-//   const product = data.products.find((prod) => prod._id === req.params.id);
-
-//   if (product) {
-//     res.send(product);
-//   } else {
-//     res.status(404).send({ message: 'Product not Found' });
-//   }
-// });
-
-// app.get('/api/products', (req, res) => {
-//   res.send(data.products);
-// });
-
 app.use('/api/users', userRouter);
 app.use('/api/products', productRouter);
 app.use('/api/orders', orderRouter);
+
+app.get('/api/config/paypal', (req, res) => {
+  res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
+});
 
 app.get('/', (req, res) => {
   res.send('Server is ready');
