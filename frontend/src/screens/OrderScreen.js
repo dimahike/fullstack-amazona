@@ -5,8 +5,9 @@ import { PayPalButton } from 'react-paypal-button-v2';
 
 import MessageBox from '../components/MessageBox';
 import LoadingBox from '../components/LoadingBox';
-import { detailsOrder } from '../actions/orderActions';
+import { detailsOrder, payOrder } from '../actions/orderActions';
 import Axios from 'axios';
+import { ORDER_PAY_RESET } from '../constants/orderConstants';
 
 const OrderScreen = (props) => {
   const orderId = props.match.params.id;
@@ -15,6 +16,9 @@ const OrderScreen = (props) => {
   const dispatch = useDispatch();
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
+
+  const orderPay = useSelector((state) => state.orderPay);
+  const { loading: loadingPay, error: errorPay, success: successPay } = orderPay;
 
   useEffect(() => {
     const addPayPalScript = async () => {
@@ -28,7 +32,8 @@ const OrderScreen = (props) => {
       };
       document.body.appendChild(script);
     };
-    if (!order) {
+    if (!order || successPay || (order && order._id !== orderId)) {
+      dispatch({ type: ORDER_PAY_RESET });
       dispatch(detailsOrder(orderId));
     } else {
       if (!order.isPaid) {
@@ -39,10 +44,11 @@ const OrderScreen = (props) => {
         }
       }
     }
-  }, [dispatch, order, orderId, sdkReady]);
+  }, [dispatch, order, orderId, sdkReady, successPay]);
 
-  const successPaymentHandler = () => {
-    // TODO: dispatvh pay order
+  const successPaymentHandler = (paymentResult) => {
+    console.log('paymentResult in successPaymentHandler', paymentResult);
+    dispatch(payOrder(order, paymentResult));
   };
 
   return loading ? (
@@ -65,7 +71,7 @@ const OrderScreen = (props) => {
                   {order.shippingAddress.country},
                 </p>
                 {order.isDelivered ? (
-                  <MessageBox variant="succuss">Delivered at {order.deliveredAt}</MessageBox>
+                  <MessageBox variant="success">Delivered at {order.deliveredAt}</MessageBox>
                 ) : (
                   <MessageBox variant="danger">Not Delivered</MessageBox>
                 )}
@@ -78,7 +84,7 @@ const OrderScreen = (props) => {
                   <strong>Method:</strong> {order.paymentMethod}
                 </p>
                 {order.isPaid ? (
-                  <MessageBox variant="succuss">Delivered at {order.paidAt}</MessageBox>
+                  <MessageBox variant="success">Delivered at {order.paidAt}</MessageBox>
                 ) : (
                   <MessageBox variant="danger">Not Paid</MessageBox>
                 )}
@@ -152,7 +158,11 @@ const OrderScreen = (props) => {
                   {!sdkReady ? (
                     <LoadingBox />
                   ) : (
-                    <PayPalButton amount={order.totalPrice} onSuccess={successPaymentHandler} />
+                    <>
+                      {errorPay && <LoadingBox variant="danger">{errorPay} </LoadingBox>}
+                      {loadingPay && <LoadingBox />}
+                      <PayPalButton amount={order.totalPrice} onSuccess={successPaymentHandler} />
+                    </>
                   )}
                 </li>
               )}
