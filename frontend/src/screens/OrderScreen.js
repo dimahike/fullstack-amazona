@@ -84,7 +84,7 @@ const OrderScreen = (props) => {
                   <strong>Method:</strong> {order.paymentMethod}
                 </p>
                 {order.isPaid ? (
-                  <MessageBox variant="success">Delivered at {order.paidAt}</MessageBox>
+                  <MessageBox variant="success">Payment at {order.paidAt}</MessageBox>
                 ) : (
                   <MessageBox variant="danger">Not Paid</MessageBox>
                 )}
