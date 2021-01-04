@@ -12,6 +12,7 @@ import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import OrderHistoryScreen from './screens/OrderHistoryScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import PrivatRoute from './components/PrivatRoute';
 
 function App() {
   const dispatch = useDispatch();
@@ -72,7 +73,7 @@ function App() {
           <Route path="/placeorder" component={PlaceOrderScreen} />
           <Route path="/order/:id" component={OrderScreen} />
           <Route path="/orderhistoty" component={OrderHistoryScreen} />
-          <Route path="/profile" component={ProfileScreen} />
+          <PrivatRoute path="/profile" component={ProfileScreen} />
           <Route path="/" component={HomeScreen} exact />
         </main>
         <footer className="row center">All right reserved</footer>
