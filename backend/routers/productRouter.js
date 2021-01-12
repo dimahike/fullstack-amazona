@@ -40,7 +40,6 @@ productRouter.post(
   isAuth,
   isAdmin,
   expressAsyncHandler(async (req, res) => {
-    console.log('product post');
     const product = new Product({
       name: 'sample name' + Date.now(),
       image: '/images/p1.jpg',
