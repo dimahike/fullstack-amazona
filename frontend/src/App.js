@@ -16,6 +16,7 @@ import PrivatRoute from './components/PrivatRoute';
 import AdminRoute from './components/AdminRoute';
 import ProducListScreen from './screens/ProducListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
+import OrderListScreen from './screens/OrderListScreen';
 
 function App() {
   const dispatch = useDispatch();
@@ -100,6 +101,7 @@ function App() {
           <Route path="/orderhistoty" component={OrderHistoryScreen} />
           <PrivatRoute path="/profile" component={ProfileScreen} />
           <AdminRoute path="/productlist" component={ProducListScreen} />
+          <AdminRoute path="/orderlist" component={OrderListScreen} />
           <Route path="/" component={HomeScreen} exact />
         </main>
         <footer className="row center">All right reserved</footer>
