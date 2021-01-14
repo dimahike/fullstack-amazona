@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 import { cartReducer } from './reducers/cartReducers.js';
 import {
   orderCreateReducer,
+  orderDeleteReducer,
   orderDetailsReducer,
   orderListReducer,
   orderMineListReducer,
@@ -54,6 +55,7 @@ const reducer = combineReducers({
   productUpdate: productUpdateReduser,
   productDelete: productDeleteReduser,
   orderList: orderListReducer,
+  orderDelete: orderDeleteReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
