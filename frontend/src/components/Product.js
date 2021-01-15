@@ -6,7 +6,7 @@ const Product = ({ product }) => {
   return (
     <div className="card">
       <Link to={`/product/${product._id}`}>
-        <img className="medium" src={`http://localhost:3000/${product.image}`} alt={product.name} />
+        <img className="medium" src={`${product.image}`} alt={product.name} />
       </Link>
       <div className="card-body">
         <Link to={`/product/${product._id}`}>

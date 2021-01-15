@@ -5,9 +5,9 @@ import { PayPalButton } from 'react-paypal-button-v2';
 
 import MessageBox from '../components/MessageBox';
 import LoadingBox from '../components/LoadingBox';
-import { detailsOrder, payOrder } from '../actions/orderActions';
+import { deliverOrder, detailsOrder, payOrder } from '../actions/orderActions';
 import Axios from 'axios';
-import { ORDER_PAY_RESET } from '../constants/orderConstants';
+import { ORDER_DELIVER_RESET, ORDER_PAY_RESET } from '../constants/orderConstants';
 
 const OrderScreen = (props) => {
   const orderId = props.match.params.id;
@@ -19,6 +19,12 @@ const OrderScreen = (props) => {
 
   const orderPay = useSelector((state) => state.orderPay);
   const { loading: loadingPay, error: errorPay, success: successPay } = orderPay;
+
+  const orderDeliver = useSelector((state) => state.orderDeliver);
+  const { loading: loadingDelivere, error: errorDelivere, success: successDelivere } = orderDeliver;
+
+  const userSignin = useSelector((state) => state.userSignin);
+  const { userInfo } = userSignin;
 
   useEffect(() => {
     const addPayPalScript = async () => {
@@ -32,8 +38,9 @@ const OrderScreen = (props) => {
       };
       document.body.appendChild(script);
     };
-    if (!order || successPay || (order && order._id !== orderId)) {
+    if (!order || successPay || successDelivere || (order && order._id !== orderId)) {
       dispatch({ type: ORDER_PAY_RESET });
+      dispatch({ type: ORDER_DELIVER_RESET });
       dispatch(detailsOrder(orderId));
     } else {
       if (!order.isPaid) {
@@ -44,11 +51,14 @@ const OrderScreen = (props) => {
         }
       }
     }
-  }, [dispatch, order, orderId, sdkReady, successPay]);
+  }, [dispatch, order, orderId, sdkReady, successPay, successDelivere]);
 
   const successPaymentHandler = (paymentResult) => {
-    console.log('paymentResult in successPaymentHandler', paymentResult);
     dispatch(payOrder(order, paymentResult));
+  };
+
+  const deliverHandler = () => {
+    dispatch(deliverOrder(order._id));
   };
 
   return loading ? (
@@ -99,11 +109,7 @@ const OrderScreen = (props) => {
                     <li key={item.product}>
                       <div className="row">
                         <div>
-                          <img
-                            src={`http://localhost:3000/${item.image}`}
-                            alt={item.name}
-                            className="small"
-                          />
+                          <img src={`${item.image}`} alt={item.name} className="small" />
                         </div>
                         <div className="min-30">
                           <Link to={`/product/${item.product}`}>{item.name} </Link>
@@ -164,6 +170,15 @@ const OrderScreen = (props) => {
                       <PayPalButton amount={order.totalPrice} onSuccess={successPaymentHandler} />
                     </>
                   )}
+                </li>
+              )}
+              {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                <li>
+                  {loadingDelivere && <LoadingBox />}
+                  {errorDelivere && <MessageBox variant="danger">{errorDelivere} </MessageBox>}
+                  <button type="button" className="primary block" onClick={deliverHandler}>
+                    Deliver Order
+                  </button>
                 </li>
               )}
             </ul>
