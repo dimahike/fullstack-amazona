@@ -11,7 +11,7 @@ const OrderHistoryScreen = (props) => {
 
   useEffect(() => {
     dispatch(listOrderMine());
-  }, dispatch);
+  }, [dispatch]);
 
   return (
     <div>
