@@ -19,6 +19,7 @@ import ProductEditScreen from './screens/ProductEditScreen';
 import OrderListScreen from './screens/OrderListScreen';
 import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
+import SellerRoute from './components/SellerRoute';
 
 function App() {
   const dispatch = useDispatch();
@@ -67,6 +68,21 @@ function App() {
             ) : (
               <Link to="/signin">Sign in</Link>
             )}
+            {userInfo && userInfo.isSeller && (
+              <div className="dropdown">
+                <Link to="#admin">
+                  Seller <i className="fa fa-caret-down"></i>
+                  <ul className="dropdown-content">
+                    <li>
+                      <Link to="/productlist/seller">Products</Link>
+                    </li>
+                    <li>
+                      <Link to="/orderlist/seller">Orders</Link>
+                    </li>
+                  </ul>
+                </Link>
+              </div>
+            )}
             {userInfo && userInfo.isAdmin && (
               <div className="dropdown">
                 <Link to="#admin">
@@ -102,10 +118,12 @@ function App() {
           <Route path="/order/:id" component={OrderScreen} />
           <Route path="/orderhistoty" component={OrderHistoryScreen} />
           <PrivatRoute path="/profile" component={ProfileScreen} />
-          <AdminRoute path="/productlist" component={ProducListScreen} />
-          <AdminRoute path="/orderlist" component={OrderListScreen} />
+          <AdminRoute path="/productlist" component={ProducListScreen} exact />
+          <AdminRoute path="/orderlist" component={OrderListScreen} exact />
           <AdminRoute path="/userlist" component={UserListScreen} />
           <AdminRoute path="/user/:id/edit" component={UserEditScreen} />
+          <SellerRoute path="/productlist/seller" component={ProducListScreen} />
+          <SellerRoute path="/orderlist/seller" component={OrderListScreen} />
           <Route path="/" component={HomeScreen} exact />
         </main>
         <footer className="row center">All right reserved</footer>
