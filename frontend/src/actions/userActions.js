@@ -13,6 +13,9 @@ import {
   USER_LIST_REQUEST,
   USER_LIST_SUCCESS,
   USER_LIST_FAIL,
+  USER_TOPSELLERS_REQUEST,
+  USER_TOPSELLERS_SUCCESS,
+  USER_TOPSELLERS_FAIL,
   USER_DELETE_REQUEST,
   USER_DELETE_SUCCESS,
   USER_DELETE_FAIL,
@@ -126,6 +129,21 @@ export const listUsers = () => async (dispatch, getState) => {
     const message =
       error.response && error.response.data.message ? error.response.data.message : error.message;
     dispatch({ type: USER_LIST_FAIL, payload: message });
+  }
+};
+
+export const listTopSellers = () => async (dispatch) => {
+  dispatch({ type: USER_TOPSELLERS_REQUEST });
+  try {
+    console.log('top seller success');
+    const { data } = await Axios.get(`/api/users/top-sellers`);
+    console.log('data from topSeller', data);
+    dispatch({ type: USER_TOPSELLERS_SUCCESS, payload: data });
+  } catch (error) {
+    console.log('top seller error', error);
+    const message =
+      error.response && error.response.data.message ? error.response.data.message : error.message;
+    dispatch({ type: USER_TOPSELLERS_FAIL, payload: message });
   }
 };
 

@@ -8,6 +8,15 @@ import { generateToken, isAdmin, isAuth } from '../utils.js';
 const userRouter = express.Router();
 
 userRouter.get(
+  '/top-sellers',
+  expressAsyncHandler(async (req, res) => {
+    const topSeller = await User.find({ isSeller: true }).sort({ 'seller.rating': -1 }).limit(3);
+    console.log('topSeller', topSeller);
+    res.send(topSeller);
+  }),
+);
+
+userRouter.get(
   '/seed',
   expressAsyncHandler(async (req, res) => {
     // await User.remove({});

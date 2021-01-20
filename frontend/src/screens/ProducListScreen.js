@@ -37,7 +37,15 @@ const ProducListScreen = (props) => {
     }
     console.log('front listProducts');
     dispatch(listProducts({ seller: sellerMode ? userInfo._id : '' }));
-  }, [dispatch, createdProduct, successCreate, props.history, successDelete]);
+  }, [
+    dispatch,
+    createdProduct,
+    successCreate,
+    props.history,
+    successDelete,
+    sellerMode,
+    userInfo._id,
+  ]);
 
   const deleteHandler = (product) => {
     if (window.confirm('Are you sure to delete?')) {
