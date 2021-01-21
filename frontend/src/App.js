@@ -1,4 +1,3 @@
-import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { BrowserRouter, Link, Route } from 'react-router-dom';
 import ProductScreen from './screens/ProductScreen';
@@ -25,9 +24,17 @@ import SellerRoute from './components/SellerRoute';
 import SellerScreen from './screens/SellerScreen';
 import SearchBox from './components/SearchBox';
 import SearchScreen from './screens/SearchScreen';
+import { useEffect, useState } from 'react';
+import { listProductCategories } from './actions/productActions';
+import LoadingBox from './components/LoadingBox';
+import MessageBox from './components/MessageBox';
 
 function App() {
   const dispatch = useDispatch();
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
+
+  const productCategoryList = useSelector((state) => state.productCategoryList);
+  const { loading: loadingCategories, error: errorCategories, categories } = productCategoryList;
 
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
@@ -39,11 +46,18 @@ function App() {
     dispatch(signout());
   };
 
+  useEffect(() => {
+    dispatch(listProductCategories());
+  }, []);
+
   return (
     <BrowserRouter>
       <div className="grid-container">
         <header className="row">
           <div>
+            <button type="button" className="open-sidebar" onClick={() => setSidebarIsOpen(true)}>
+              <i className="fa fa-bars"></i>
+            </button>
             <Link className="brand" to="/">
               amazona
             </Link>
@@ -114,6 +128,37 @@ function App() {
             )}
           </div>
         </header>
+        <aside className={sidebarIsOpen ? 'open' : ''}>
+          <ul className="categories">
+            <li>
+              <strong>Categories </strong>
+              <button
+                onClick={() => setSidebarIsOpen(false)}
+                className="close-sidebar"
+                type="button">
+                <i className="fa fa-close"></i>
+              </button>
+            </li>
+            {loadingCategories ? (
+              <LoadingBox />
+            ) : errorCategories ? (
+              <MessageBox variant="danger">{errorCategories} </MessageBox>
+            ) : (
+              <>
+                {categories.map((category) => (
+                  <li key={`key-${category}`}>
+                    <Link
+                      // className={category === activeCategory ? 'active' : ''}
+                      to={`/search/category/${category}`}
+                      onClick={() => setSidebarIsOpen(false)}>
+                      {category}
+                    </Link>
+                  </li>
+                ))}
+              </>
+            )}
+          </ul>
+        </aside>
         <main>
           <Route path="/seller/:id" component={SellerScreen} />
           <Route path="/cart/:id?" component={CartScreen} />
@@ -127,6 +172,8 @@ function App() {
           <Route path="/order/:id" component={OrderScreen} />
           <Route path="/orderhistoty" component={OrderHistoryScreen} />
           <Route path="/search/name/:name?" component={SearchScreen} exact />
+          <Route path="/search/category/:category" component={SearchScreen} exact />
+          <Route path="/search/category/:category/name/:name" component={SearchScreen} exact />
           <PrivatRoute path="/profile" component={ProfileScreen} />
           <AdminRoute path="/productlist" component={ProducListScreen} exact />
           <AdminRoute path="/orderlist" component={OrderListScreen} exact />
