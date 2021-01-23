@@ -399,4 +399,8 @@ display: block;
   margin-left: 0.5rem;
 }
 
+.active {
+  font-weight: bold;
+}
+
 
