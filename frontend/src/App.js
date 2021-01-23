@@ -28,6 +28,7 @@ import { useEffect, useState } from 'react';
 import { listProductCategories } from './actions/productActions';
 import LoadingBox from './components/LoadingBox';
 import MessageBox from './components/MessageBox';
+import MapScreen from './screens/MapScreen';
 
 function App() {
   const dispatch = useDispatch();
@@ -190,6 +191,7 @@ function App() {
             exact
           />
           <PrivatRoute path="/profile" component={ProfileScreen} />
+          <PrivatRoute path="/map" component={MapScreen} />
           <AdminRoute path="/productlist" component={ProducListScreen} exact />
           <AdminRoute path="/orderlist" component={OrderListScreen} exact />
           <AdminRoute path="/userlist" component={UserListScreen} />

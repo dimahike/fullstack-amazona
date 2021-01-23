@@ -5,10 +5,17 @@ import CheckoutSteps from '../components/CheckoutSteps';
 
 const ShippingAddressScreen = (props) => {
   const dispatch = useDispatch();
+
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
   const cart = useSelector((state) => state.cart);
   const { shippingAddress } = cart;
+
+  const [lat, setLat] = useState(shippingAddress.lat);
+  const [lng, setLng] = useState(shippingAddress.lat);
+
+  const userAddressMap = useSelector((state) => state.userAddressMap);
+  const { address: addreesMap } = userAddressMap;
 
   if (!userInfo) {
     props.history.push('/signin');
@@ -22,8 +29,48 @@ const ShippingAddressScreen = (props) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(saveShippingAddress({ fullName, address, city, postalCode, country }));
-    props.history.push('/payment');
+    const newLat = addreesMap ? addreesMap.lat : lat;
+    const newLng = addreesMap ? addreesMap.lng : lng;
+    if (addreesMap) {
+      setLat(addreesMap.lat);
+      setLng(addreesMap.lng);
+    }
+
+    let moveOn = true;
+
+    if (!newLat || !newLng) {
+      moveOn = window.confirm('You did not set your location on map. Continue?');
+    }
+
+    if (moveOn) {
+      dispatch(
+        saveShippingAddress({
+          fullName,
+          address,
+          city,
+          postalCode,
+          country,
+          lat: newLat,
+          lng: newLng,
+        }),
+      );
+      props.history.push('/payment');
+    }
+  };
+
+  const shooseOnMap = () => {
+    dispatch(
+      saveShippingAddress({
+        fullName,
+        address,
+        city,
+        postalCode,
+        country,
+        lat,
+        lng,
+      }),
+    );
+    props.history.push('/map');
   };
 
   return (
@@ -87,6 +134,12 @@ const ShippingAddressScreen = (props) => {
             onChange={(e) => setCountry(e.target.value)}
             required
           />
+        </div>
+        <div>
+          <label htmlFor="chooseOnmap">Location</label>
+          <button type="button" onClick={shooseOnMap}>
+            Choose On Map
+          </button>
         </div>
         <label />
         <div>

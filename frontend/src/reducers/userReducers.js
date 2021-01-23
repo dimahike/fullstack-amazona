@@ -28,6 +28,7 @@ import {
   USER_TOPSELLERS_REQUEST,
   USER_TOPSELLERS_SUCCESS,
   USER_TOPSELLERS_FAIL,
+  USER_ADDRESS_MAP_CONFIRM,
 } from '../constants/userConstants';
 
 export const userSigninReducer = (state = {}, action) => {
@@ -139,6 +140,15 @@ export const userUpdateReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case USER_UPDATE_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const userAddressMapReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_ADDRESS_MAP_CONFIRM:
+      return { address: action.payload };
     default:
       return state;
   }
