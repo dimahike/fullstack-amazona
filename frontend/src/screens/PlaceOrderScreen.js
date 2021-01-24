@@ -71,7 +71,7 @@ const PlaceOrderScreen = (props) => {
                       <div className="row">
                         <div>
                           <img
-                            src={`http://localhost:3000/${item.image}`}
+                            src={`${process.env.REACT_APP_URL_SITE}${item.image}`}
                             alt={item.name}
                             className="small"
                           />

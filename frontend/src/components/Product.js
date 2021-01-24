@@ -6,7 +6,11 @@ const Product = ({ product }) => {
   return (
     <div className="card">
       <Link to={`/product/${product._id}`}>
-        <img className="medium" src={`http://localhost:3000/${product.image}`} alt={product.name} />
+        <img
+          className="medium"
+          src={`${process.env.REACT_APP_URL_SITE}${product.image}`}
+          alt={product.name}
+        />
       </Link>
       <div className="card-body">
         <Link to={`/product/${product._id}`}>
@@ -16,7 +20,7 @@ const Product = ({ product }) => {
         <div className="row">
           <div className="price">{product.price} $</div>
           <div>
-            <Link to={`/seller/${product.seller._id}`}>{product.seller.seller.name}</Link>
+            <Link to={`/seller/${product.seller._id}`}>{product.seller.name}</Link>
           </div>
         </div>
       </div>

@@ -36,7 +36,7 @@ const SellerScreen = (props) => {
                 <div className="p-1">
                   <img
                     className="small"
-                    src={`http://localhost:3000/${user.seller.logo}`}
+                    src={`${process.env.REACT_APP_URL_SITE}${user.seller.logo}`}
                     alt={user.seller.name}
                   />
                 </div>
