@@ -109,11 +109,7 @@ const OrderScreen = (props) => {
                     <li key={item.product}>
                       <div className="row">
                         <div>
-                          <img
-                            src={`${process.env.REACT_APP_URL_SITE}${item.image}`}
-                            alt={item.name}
-                            className="small"
-                          />
+                          <img src={item.image} alt={item.name} className="small" />
                         </div>
                         <div className="min-30">
                           <Link to={`/product/${item.product}`}>{item.name} </Link>

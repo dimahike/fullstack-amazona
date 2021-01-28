@@ -6,11 +6,7 @@ const Product = ({ product }) => {
   return (
     <div className="card">
       <Link to={`/product/${product._id}`}>
-        <img
-          className="medium"
-          src={`${process.env.REACT_APP_URL_SITE}${product.image}`}
-          alt={product.name}
-        />
+        <img className="medium" src={product.image} alt={product.name} />
       </Link>
       <div className="card-body">
         <Link to={`/product/${product._id}`}>

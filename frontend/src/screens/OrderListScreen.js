@@ -20,7 +20,7 @@ const OrderListScreen = (props) => {
   useEffect(() => {
     dispatch({ type: ORDER_DELETE_RESET });
     dispatch(listOrders({ seller: sellerMode ? userInfo._id : '' }));
-  }, [dispatch, successDelete]);
+  }, [dispatch, successDelete, sellerMode]);
 
   const deleteHandler = (order) => {
     if (window.confirm('Are you sure to delete?')) {

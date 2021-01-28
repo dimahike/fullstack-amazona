@@ -34,11 +34,7 @@ const SellerScreen = (props) => {
             <li>
               <div className="row start">
                 <div className="p-1">
-                  <img
-                    className="small"
-                    src={`${process.env.REACT_APP_URL_SITE}${user.seller.logo}`}
-                    alt={user.seller.name}
-                  />
+                  <img className="small" src={user.seller.logo} alt={user.seller.name} />
                 </div>
                 <div className="p-1">
                   <h1>{user.seller.name}</h1>

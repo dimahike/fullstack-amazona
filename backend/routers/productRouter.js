@@ -1,6 +1,7 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import { data } from '../data.js';
+import fileUploadS3 from '../middleware/file-upload.js';
 import Product from '../models/productModel.js';
 import User from '../models/userModel.js';
 import { isAuth, isAdmin, isSellerOrAdmin } from '../utils.js';
@@ -10,7 +11,7 @@ const productRouter = express.Router();
 productRouter.get(
   '/',
   expressAsyncHandler(async (req, res) => {
-    const pageSize = 3;
+    const pageSize = 6;
     const page = Number(req.query.pageNumber) || 1;
     const name = req.query.name || '';
     const category = req.query.category || '';
@@ -126,6 +127,7 @@ productRouter.put(
   isSellerOrAdmin,
   expressAsyncHandler(async (req, res) => {
     const productId = req.params.id;
+
     const product = await Product.findById(productId);
     if (product) {
       product.name = req.body.name;
