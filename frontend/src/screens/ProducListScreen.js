@@ -29,7 +29,6 @@ const ProducListScreen = (props) => {
   const { loading: loadingDelete, error: errorDelete, success: successDelete } = productDelete;
 
   useEffect(() => {
-    console.log('start useEffect');
     if (successCreate) {
       dispatch({ type: PRODUCT_CREATE_RESET });
       props.history.push(`/product/${createdProduct._id}/edit`);
@@ -37,7 +36,7 @@ const ProducListScreen = (props) => {
     if (successDelete) {
       dispatch({ type: PRODUCT_DELETE_RESET });
     }
-    console.log('front listProducts');
+
     dispatch(listProducts({ seller: sellerMode ? userInfo._id : '', pageNumber }));
   }, [
     dispatch,
@@ -52,7 +51,7 @@ const ProducListScreen = (props) => {
 
   const deleteHandler = (product) => {
     if (window.confirm('Are you sure to delete?')) {
-      dispatch(deleteProduct(product._id));
+      dispatch(deleteProduct(product._id, product.image));
     }
   };
 

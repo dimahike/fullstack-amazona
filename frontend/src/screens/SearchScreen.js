@@ -40,7 +40,6 @@ const SearchScreen = (props) => {
   }, [dispatch, name, activeCategory, min, max, activeRating, order, pageNumber]);
 
   const getFilterUrl = (filter) => {
-    console.log(' filter.rating', filter.rating, ' activeRating', activeRating);
     const filterCategory = filter.category || activeCategory;
     const filterPage = filter.page || pageNumber;
     const filterName = filter.name || name;

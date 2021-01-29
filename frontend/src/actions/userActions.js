@@ -134,13 +134,12 @@ export const listUsers = () => async (dispatch, getState) => {
 
 export const listTopSellers = () => async (dispatch) => {
   dispatch({ type: USER_TOPSELLERS_REQUEST });
+
   try {
-    console.log('top seller success');
     const { data } = await Axios.get(`/api/users/top-sellers`);
-    console.log('data from topSeller', data);
+
     dispatch({ type: USER_TOPSELLERS_SUCCESS, payload: data });
   } catch (error) {
-    console.log('top seller error', error);
     const message =
       error.response && error.response.data.message ? error.response.data.message : error.message;
     dispatch({ type: USER_TOPSELLERS_FAIL, payload: message });
@@ -154,13 +153,12 @@ export const deleteUser = (userId) => async (dispatch, getState) => {
   } = getState();
 
   try {
-    console.log('userId 1', userId);
     const { data } = await Axios.delete(`/api/users/${userId}`, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`,
       },
     });
-    console.log('data', data);
+
     dispatch({ type: USER_DELETE_SUCCESS, payload: data });
   } catch (error) {
     const message =
@@ -177,7 +175,6 @@ export const updateUser = (user) => async (dispatch, getState) => {
   } = getState();
 
   try {
-    console.log('user updateUser', user);
     const { data } = await Axios.put(`/api/users/${user._id}`, user, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`,

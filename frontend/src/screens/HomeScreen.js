@@ -16,7 +16,6 @@ const HomeScreen = () => {
 
   const userTopSellers = useSelector((state) => state.userTopSellers);
   const { loading: loadingSellers, error: errorSellers, users: sellers } = userTopSellers;
-  console.log('sellers', sellers);
 
   useEffect(() => {
     dispatch(listProducts({}));

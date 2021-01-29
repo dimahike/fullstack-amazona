@@ -132,11 +132,30 @@ export const updateProduct = (product) => async (dispatch, getState) => {
   }
 };
 
-export const deleteProduct = (productId) => async (dispatch, getState) => {
+export const deleteProduct = (productId, image) => async (dispatch, getState) => {
   dispatch({ type: PRODUCT_DELETE_REQUEST });
   const {
     userSignin: { userInfo },
   } = getState();
+
+  // const bodyFormData = new FormData();
+  // bodyFormData.append('image', image);
+
+  // console.log('delete image', image);
+  // console.log('userInfo.token', userInfo.token);
+
+  try {
+    const { data } = await Axios.delete(`/api/uploads/s3/${productId}`, {
+      headers: {
+        // 'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    });
+    console.log('delete image from AWS', data);
+  } catch (error) {
+    console.log(error);
+  }
+
   try {
     const { data } = await Axios.delete(`/api/products/${productId}`, {
       headers: { Authorization: `Bearer ${userInfo.token}` },
@@ -150,6 +169,21 @@ export const deleteProduct = (productId) => async (dispatch, getState) => {
         error.response && error.response.data.message ? error.response.data.message : error.message,
     });
   }
+
+  // const bodyFormData = new FormData();
+  // bodyFormData.append('image', file);
+
+  // try {
+  //   const { data } = await Axios.post('/api/uploads/s3', bodyFormData, {
+  //     headers: {
+  //       'Content-Type': 'multipart/form-data',
+  //       Authorization: `Bearer ${userInfo.token}`,
+  //     },
+  //   });
+
+  // } catch (error) {
+
+  // }
 };
 
 export const createComment = (productId, review) => async (dispatch, getState) => {

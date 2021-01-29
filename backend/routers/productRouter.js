@@ -1,7 +1,7 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import { data } from '../data.js';
-import fileUploadS3 from '../middleware/file-upload.js';
+
 import Product from '../models/productModel.js';
 import User from '../models/userModel.js';
 import { isAuth, isAdmin, isSellerOrAdmin } from '../utils.js';
@@ -125,6 +125,7 @@ productRouter.put(
   '/:id',
   isAuth,
   isSellerOrAdmin,
+
   expressAsyncHandler(async (req, res) => {
     const productId = req.params.id;
 

@@ -68,7 +68,6 @@ const ProductEditScreen = (props) => {
     const file = e.target.files[0];
     const bodyFormData = new FormData();
     bodyFormData.append('image', file);
-    console.log('bodyFormData', bodyFormData);
 
     setLoadingUpload(true);
 
